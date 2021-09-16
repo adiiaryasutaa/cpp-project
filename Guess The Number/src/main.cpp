@@ -7,12 +7,12 @@ using namespace std;
 int getRandomNumber(int range);
 bool checkAnswer(int answer);
 string hint(int lastAnswer);
-string remainingattempts();
+string remainingAttempts();
 string remainingHints();
 void printMessage(string msg);
 
-int attempts  = 4;
-int hints     = 2;
+int attempts        = 4;
+int hints           = 2;
 const int range     = 20;
 const int theNumber = getRandomNumber(range);
 
@@ -30,14 +30,21 @@ int main(int argc, char const *argv[]) {
     cout << "Your answer >> "; cin >> lastAnswer;
 
     if (lastAnswer == "hint" || lastAnswer == "Hint") {
-      if (hasAnswer) { printMessage(hint(answer)); }
-      else { printMessage("You've gotta actually take a guess first before you get a hint"); }
+      if (hasAnswer) {
+        printMessage(hint(answer));
+      } else {
+        printMessage("You've gotta actually take a guess first before you get a hint");
+      }
     } else {
       hasAnswer = true;
-      try { answer = stoi(lastAnswer); }
+
+      // Try to cast string to integer
+      try {
+        answer = stoi(lastAnswer);
+      }
       catch(exception e) {
         attempts -= 1;
-        printMessage("It's gotta be a valid number\n" + remainingattempts() + " and " + remainingHints());
+        printMessage("It's gotta be a valid number\n" + remainingAttempts() + " and " + remainingHints());
         continue;
       }
 
@@ -48,7 +55,7 @@ int main(int argc, char const *argv[]) {
         if (attempts == 0) {
           printMessage("Unlucky, you ran out of attempts to guess the number. I was thinking of " + to_string(theNumber));
         } else {
-          printMessage("Not this time, " + remainingattempts() + " and " + remainingHints());
+          printMessage("Not this time, " + remainingAttempts() + " and " + remainingHints());
         }
       }
     }
@@ -73,7 +80,7 @@ string hint(int lastAnswer) {
   return lastAnswer < theNumber ? "Your last number was too low" : "Your last number was too high";
 }
 
-string remainingattempts() {
+string remainingAttempts() {
   return to_string(attempts) + (attempts == 1 ? " attempt left" : " attempts left");
 }
 
